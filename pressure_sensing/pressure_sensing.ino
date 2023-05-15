@@ -5,7 +5,7 @@
 #include <SparkFun_TB6612.h>
 
 Servo myservo;
-//Adafruit_DPS310 dps;
+Adafruit_DPS310 dps;
 
 // --------------------------Motor Variables
 #define AIN1 4
@@ -22,8 +22,8 @@ Motor motor1 = Motor(AIN1, AIN2, PWMA, offsetA, STBY);
 // ---------------------Pressure Variables 
 #define DPS310_CS 10
 float currentPressure; 
-float base_pressure = 1015;
-float extension_pressure = 1150;
+float basePressure = 1015;
+float extensionPressure = 1150;
 //float deflation_pressure = 0;
 //----------------------------------Buttons 
 #define e_button_pin 2
@@ -60,13 +60,13 @@ void loop() {
   }
 
   dps.getEvents(&temp_event,&pressure_event);
-  Serial.print(pressure_event.pressure);
+  Serial.println(pressure_event.pressure);
   //Serial.println(" hPa"); 
 
-  Serial.println();
+ /* Serial.println();
   currentPressure = pressure_event.pressure;         // reads the value of the potentiometer (value between 0 and 1023)
   //currentPressure = map(currentPressure, 1015, 1150, 0, 180);     // scale it for use with the servo (value between 0 and 180)
-  if(currentPressure > basePressure && currentPressure < extendedpressure){
+  if(currentPressure > basePressure && currentPressure < extensionPressure){
     // myservo.write(150);                  // sets the servo position according to the scaled value
     // delay(15);
     Serial.println("hello");
@@ -85,8 +85,8 @@ void loop() {
   else{
     myservo.write(0);
   }
-  Serial.println(e_button_state);
-
+  Serial.println(e_button_state);*/
+/*
 //---------------- Motor Control Code
   motorInput = analogRead(motorControl);
   //Serial.println(motorInput);
@@ -108,5 +108,5 @@ void loop() {
     motor1.drive(255, 100); //255 if potentiometer is within last 1/3
     //Serial.println(motorValue);
   }
-
+*/
 }
