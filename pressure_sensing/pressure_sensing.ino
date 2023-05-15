@@ -5,13 +5,17 @@
 #include <SparkFun_TB6612.h>
 
 Servo myservo;
-Adafruit_DPS310 dps;
+//Adafruit_DPS310 dps;
 
 // --------------------------Motor Variables
-#define AIN1 3
-#define AIN2 4
-#define PWMA 5
-#define STBY 6
+#define AIN1 4
+#define PWMA 6
+#define AIN2 5
+#define STBY 7
+
+const int motorControl = A1;
+float motorValue = 1;
+float motorInput = 0;
 
 const int offsetA = 1;
 Motor motor1 = Motor(AIN1, AIN2, PWMA, offsetA, STBY);
@@ -82,4 +86,27 @@ void loop() {
     myservo.write(0);
   }
   Serial.println(e_button_state);
+
+//---------------- Motor Control Code
+  motorInput = analogRead(motorControl);
+  //Serial.println(motorInput);
+
+//---------------- Forwards/backwards based on value from potentiometer
+  if (-1 <= motorInput && motorInput<= 399){
+    motorValue = 1*(motorInput/400)*255;
+    motor1.drive(-255, 100); //-255 if potentiometer is within first 1/3
+   // Serial.println(motorValue);
+  }
+
+  else if (400 <= motorInput && motorInput <= 624){
+    motor1.brake(); //stops motor when poteniometer is at middle
+   // Serial.println("Brake");
+  }
+
+  else if (625 <= motorInput && motorInput <= 1025){
+    motorValue = 1*(motorInput-624)/400*255;
+    motor1.drive(255, 100); //255 if potentiometer is within last 1/3
+    //Serial.println(motorValue);
+  }
+
 }
